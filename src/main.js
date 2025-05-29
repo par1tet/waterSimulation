@@ -1,0 +1,1 @@
+drawCircle(ctx, [WIDTH / 2, HEIGHT / 2],10)
