@@ -3,7 +3,7 @@ class Circle {
         this.position = position
         this.radius = radius
         this.speed = [0,0]
-        this.acceleration = [0,195]
+        this.acceleration = [0,895]
     }
 
     drawFunc(ctx){
@@ -17,10 +17,8 @@ class Circle {
         this.position[0] += this.speed[0] * dTime
         this.position[1] += this.speed[1] * dTime
 
-        console.log(this.position[1])
-
         if(this.position[1] + this.radius > HEIGHT){
-            this.speed[1] = -0.1 * (this.speed[1])
+            this.speed[1] = -0.001 * (this.speed[1])
             this.position[1] = HEIGHT - this.radius
         }
 
@@ -35,7 +33,7 @@ class Circle {
 
             let dist = Math.sqrt((others[i].position[0] - this.position[0])**2 + (others[i].position[1] - this.position[1])**2)
 
-            if(dist <= (this.radius + others[i].radius)){
+            if(dist <= (this.radius + others[i].radius - 5)){
                 let perpTang = [
                     -others[i].position[0] + this.position[0],
                     -others[i].position[1] + this.position[1]
@@ -49,20 +47,20 @@ class Circle {
                 ]
 
                 this.speed = [
-                    -.2 * (this.speed[0] -(2 * perpTangNormal[0])),
-                    -.2 * (this.speed[1] -(2 * perpTangNormal[1])),
+                    -.001 * (this.speed[0] -(2 * perpTangNormal[0])),
+                    -.001 * (this.speed[1] -(2 * perpTangNormal[1])),
                 ]
 
                 let resolveDist = dist - (this.radius + others[i].radius)
 
                 this.position = [
-                    this.position[0] - (perpTangNormal[0] * (1/2) * resolveDist),
-                    this.position[1] - (perpTangNormal[1] * (1/2) * resolveDist)
+                    this.position[0] - (perpTangNormal[0] * (1/2) * resolveDist)* 0.9,
+                    this.position[1] - (perpTangNormal[1] * (1/2) * resolveDist)* 0.9
                 ]
 
                 others[i].position = [
-                    others[i].position[0] + (perpTangNormal[0] * (1/2) * resolveDist),
-                    others[i].position[1] + (perpTangNormal[1] * (1/2) * resolveDist)
+                    others[i].position[0] + (perpTangNormal[0] * (1/2) * resolveDist) * 0.9,
+                    others[i].position[1] + (perpTangNormal[1] * (1/2) * resolveDist)* 0.9
                 ]
             }
         }
