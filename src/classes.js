@@ -12,8 +12,8 @@ class Circle {
     }
 
     update(dTime, others){
-
         this.collision(dTime, others)
+
         this.speed[0] += this.acceleration[0] * dTime
         this.speed[1] += this.acceleration[1] * dTime
 
@@ -25,6 +25,15 @@ class Circle {
             this.position[1] = HEIGHT - this.radius
         }
 
+        if(this.position[0] - this.radius < 0){
+            this.speed[0] = -0.001 * (this.speed[0])
+            this.position[0] = this.radius
+        }
+
+        if(this.position[0] + this.radius > WIDTH){
+            this.speed[0] = -0.001 * (this.speed[0])
+            this.position[0] = WIDTH - this.radius
+        }
     }
 
     collision(dTime, others){
