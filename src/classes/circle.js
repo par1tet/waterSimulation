@@ -1,18 +1,21 @@
 class Circle {
-    constructor(position, radius, index){
+    constructor(position, radius, index, color = 'cyan'){
         this.position = position
         this.radius = radius
         this.speed = [0,0]
         this.acceleration = [0,980]
         this.index = index
+        this.color = color
+        this.tempColor = this.color
     }
 
     drawFunc(ctx){
-        drawCircle(ctx, this.position, this.radius, "cyan")
+        drawCircle(ctx, this.position, this.radius, this.color)
     }
 
-    update(dTime, others){
+    update(dTime, others, sticks){
         this.collision(dTime, others)
+        this.stickCollision(dTime, sticks)
 
         this.speed[0] += this.acceleration[0] * dTime
         this.speed[1] += this.acceleration[1] * dTime
@@ -87,6 +90,47 @@ class Circle {
                     others[i].position[1] + ((perpTangNormal[1] + adv) * (1/2) * resolveDist)
                 ]
             }
+        }
+    }
+
+    stickCollision(dTime, sticks){
+        let f = -this.position[1]
+        let g = -this.position[0]
+        let b = 1
+        let a = undefined
+        let k = undefined
+        let isCollision = false
+        let r = this.radius
+
+        for(let i = 0;i != sticks.length;i++){
+            a = (sticks[i].position[1][1] - sticks[i].position[0][1]) / (sticks[i].position[1][0] - sticks[i].position[0][0])
+            k = sticks[i].position[0][1] - a*sticks[i].position[0][0]
+            
+            let poly1 = (b**2)*(g**2) + (k + b*f)**2 - (b**2)*(r**2)
+            let Discriminant = 4*((b**2)*g + a*k + a*b*f)**2 - (4*((a**2) + (b**2))) * poly1
+
+            if(Discriminant >= 0){
+                let polyX1 = -2*((b**2)*g + a*k + a*b*f)
+                let polyX2 = 2*(a**2 + b**2)
+
+                let x1 = (polyX1 + Math.sqrt(Discriminant)) / polyX2
+                let x2 = (polyX1 - Math.sqrt(Discriminant)) / polyX2
+
+                let minX = Math.min(sticks[i].position[0][0], sticks[i].position[1][0])
+                let maxX = Math.max(sticks[i].position[0][0], sticks[i].position[1][0])
+
+                if (minX <= x1 && x1 <= maxX ||
+                    minX <= x2 && x2 <= maxX){
+                    isCollision = true
+                    
+                }
+            }
+        }
+
+        if (isCollision){
+            this.color = 'red'
+        }else {
+            this.color = this.tempColor
         }
     }
 }

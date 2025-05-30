@@ -50,7 +50,7 @@ setInterval(() => {
     ctx.clearRect(0,0,WIDTH, HEIGHT)
 
     for(let i = 0;i != circles.length;i++){
-        circles[i].update(dTime, circles)
+        circles[i].update(dTime, circles, sticks)
         circles[i].drawFunc(ctx)
     }
     
