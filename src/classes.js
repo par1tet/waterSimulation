@@ -8,7 +8,7 @@ class Circle {
     }
 
     drawFunc(ctx){
-        drawCircle(ctx, this.position, this.radius)
+        drawCircle(ctx, this.position, this.radius, "cyan")
     }
 
     update(dTime, others){
@@ -62,7 +62,7 @@ class Circle {
                     perpTang[1] / perpTangPower
                 ]
 
-                let viscosity = 5
+                let viscosity = 0.5
 
                 this.speed = [
                     this.speed[0] + -viscosity * (this.speed[0] -(2 * perpTangNormal[0])) * dTime,

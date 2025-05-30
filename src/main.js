@@ -13,15 +13,16 @@ canvas.addEventListener('mousedown', e => {
 canvas.addEventListener('mousemove', e => {
     if (isMouseDown) {
         let sizeCircle = 15
+        let d = 40;
         updateCircles([e.clientX, e.clientY], sizeCircle)
-        updateCircles([e.clientX - 1, e.clientY], sizeCircle)
-        updateCircles([e.clientX - 1, e.clientY - 1], sizeCircle)
-        updateCircles([e.clientX, e.clientY - 1], sizeCircle)
-        updateCircles([e.clientX + 1, e.clientY], sizeCircle)
-        updateCircles([e.clientX + 1, e.clientY + 1], sizeCircle)
-        updateCircles([e.clientX, e.clientY + 1], sizeCircle)
-        updateCircles([e.clientX - 1, e.clientY + 1], sizeCircle)
-        updateCircles([e.clientX + 1, e.clientY - 1], sizeCircle)
+        updateCircles([e.clientX - d, e.clientY], sizeCircle)
+        updateCircles([e.clientX - d, e.clientY - d], sizeCircle)
+        updateCircles([e.clientX, e.clientY - d], sizeCircle)
+        updateCircles([e.clientX + d, e.clientY], sizeCircle)
+        updateCircles([e.clientX + d, e.clientY + d], sizeCircle)
+        updateCircles([e.clientX, e.clientY + d], sizeCircle)
+        updateCircles([e.clientX - d, e.clientY + d], sizeCircle)
+        updateCircles([e.clientX + d, e.clientY - d], sizeCircle)
     }
 });
 
