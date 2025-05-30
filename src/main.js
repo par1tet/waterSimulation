@@ -2,20 +2,26 @@ circles = []
 
 let isMouseDown = false;
 
+function updateCircles(position, size){
+    circles.push(new Circle(position, size, circles.length))
+}
+
 canvas.addEventListener('mousedown', e => {
     isMouseDown = true;
 });
 
 canvas.addEventListener('mousemove', e => {
     if (isMouseDown) {
-        let sizeCircle = 5
-        circles.push(new Circle([e.clientX - 1, e.clientY - 1], sizeCircle))
-        circles.push(new Circle([e.clientX, e.clientY - 1], sizeCircle))
-        circles.push(new Circle([e.clientX - 1, e.clientY], sizeCircle))
-        circles.push(new Circle([e.clientX + 1, e.clientY + 1], sizeCircle))
-        circles.push(new Circle([e.clientX, e.clientY + 1], sizeCircle))
-        circles.push(new Circle([e.clientX + 1, e.clientY], sizeCircle))
-        circles.push(new Circle([e.clientX, e.clientY], sizeCircle))
+        let sizeCircle = 10
+        updateCircles([e.clientX, e.clientY], sizeCircle)
+        updateCircles([e.clientX - 1, e.clientY], sizeCircle)
+        updateCircles([e.clientX - 1, e.clientY - 1], sizeCircle)
+        updateCircles([e.clientX, e.clientY - 1], sizeCircle)
+        updateCircles([e.clientX + 1, e.clientY], sizeCircle)
+        updateCircles([e.clientX + 1, e.clientY + 1], sizeCircle)
+        updateCircles([e.clientX, e.clientY + 1], sizeCircle)
+        updateCircles([e.clientX - 1, e.clientY + 1], sizeCircle)
+        updateCircles([e.clientX + 1, e.clientY - 1], sizeCircle)
     }
 });
 
