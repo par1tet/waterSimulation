@@ -14,7 +14,6 @@ class Circle {
     }
 
     update(dTime, others, sticks){
-        this.collision(dTime, others)
         this.stickCollision(dTime, sticks)
 
         this.speed[0] += this.acceleration[0] * dTime
@@ -23,6 +22,7 @@ class Circle {
         this.position[0] += this.speed[0] * dTime
         this.position[1] += this.speed[1] * dTime
 
+        this.collision(dTime, others)
         if(this.position[1] + this.radius > HEIGHT){
             this.speed[1] = -0.001 * (this.speed[1])
             this.position[1] = HEIGHT - this.radius
@@ -42,6 +42,8 @@ class Circle {
             this.speed[0] = -0.001 * (this.speed[0])
             this.position[0] = WIDTH - this.radius
         }
+
+        this.stickCollision(dTime, sticks)
     }
 
     collision(dTime, others){
@@ -116,19 +118,74 @@ class Circle {
                 let x1 = (polyX1 + Math.sqrt(Discriminant)) / polyX2
                 let x2 = (polyX1 - Math.sqrt(Discriminant)) / polyX2
 
+                let y1 = (a*x1 + k)/b
+                let y2 = (a*x2 + k)/b
+
                 let minX = Math.min(sticks[i].position[0][0], sticks[i].position[1][0])
                 let maxX = Math.max(sticks[i].position[0][0], sticks[i].position[1][0])
+
+                let minY = sticks[i].position[1][1]
+                let maxY = sticks[i].position[0][1]
+
+                if(minX == sticks[i].position[0][0]){
+                    minY = sticks[i].position[0][1]
+                    maxY = sticks[i].position[1][1]
+                }
 
                 if (minX <= x1 && x1 <= maxX ||
                     minX <= x2 && x2 <= maxX){
                     isCollision = true
-                    
+
+                    let stickForce = Math.sqrt((maxX - minX)**2 + (maxY - minY)**2)
+                    let directionStick = [
+                        (maxX - minX) / stickForce,
+                        (maxY - minY) / stickForce,
+                    ]
+
+                    let normal = [
+                        -(directionStick[1]),
+                        (directionStick[0])
+                    ]
+
+                    let aAverage = [
+                        (Math.abs(x1 + x2)) / 2,
+                        (Math.abs(y1 + y2)) / 2,
+                    ]
+
+                    let d = [
+                        this.position[0] - aAverage[0], 
+                        this.position[1] - aAverage[1],
+                    ]
+
+                    let dLen = Math.sqrt(d[0] ** 2 + d[1] ** 2)
+                    let dDir = [
+                        d[0] / dLen,
+                        d[1] / dLen,
+                    ]
+
+                    let moveVector = [
+                        dDir[0] * (this.radius - dLen),
+                        dDir[1] * (this.radius - dLen)
+                    ]
+
+                    console.log(moveVector)
+                    console.log(d)
+
+                    this.position = [
+                        this.position[0] + moveVector[0],
+                        this.position[1] + moveVector[1],
+                    ]
+
+                    this.speed = [
+                        1 * (this.speed[0] - 2 * (scalarProduct(this.speed, normal)) * normal[0]),
+                        1 * (this.speed[1] - 2 * (scalarProduct(this.speed, normal)) * normal[1]),
+                    ]
                 }
             }
         }
 
         if (isCollision){
-            this.color = 'red'
+            this.color = 'cyan'
         }else {
             this.color = this.tempColor
         }

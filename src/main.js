@@ -21,14 +21,6 @@ canvas.addEventListener('mousemove', e => {
         let sizeCircle = 15
         let d = 40;
         updateCircles([e.clientX, e.clientY], sizeCircle)
-        updateCircles([e.clientX - d, e.clientY], sizeCircle)
-        updateCircles([e.clientX - d, e.clientY - d], sizeCircle)
-        updateCircles([e.clientX, e.clientY - d], sizeCircle)
-        updateCircles([e.clientX + d, e.clientY], sizeCircle)
-        updateCircles([e.clientX + d, e.clientY + d], sizeCircle)
-        updateCircles([e.clientX, e.clientY + d], sizeCircle)
-        updateCircles([e.clientX - d, e.clientY + d], sizeCircle)
-        updateCircles([e.clientX + d, e.clientY - d], sizeCircle)
     }
 });
 
