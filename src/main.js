@@ -12,7 +12,7 @@ canvas.addEventListener('mousedown', e => {
 
 canvas.addEventListener('mousemove', e => {
     if (isMouseDown) {
-        let sizeCircle = 10
+        let sizeCircle = 15
         updateCircles([e.clientX, e.clientY], sizeCircle)
         updateCircles([e.clientX - 1, e.clientY], sizeCircle)
         updateCircles([e.clientX - 1, e.clientY - 1], sizeCircle)

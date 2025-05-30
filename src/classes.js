@@ -3,7 +3,7 @@ class Circle {
         this.position = position
         this.radius = radius
         this.speed = [0,0]
-        this.acceleration = [0,895]
+        this.acceleration = [0,980]
         this.index = index
     }
 
@@ -23,6 +23,11 @@ class Circle {
         if(this.position[1] + this.radius > HEIGHT){
             this.speed[1] = -0.001 * (this.speed[1])
             this.position[1] = HEIGHT - this.radius
+        }
+
+        if(this.position[1] - this.radius < 0){
+            this.speed[1] = -0.001 * (this.speed[1])
+            this.position[1] = this.radius
         }
 
         if(this.position[0] - this.radius < 0){
@@ -57,26 +62,29 @@ class Circle {
                     perpTang[1] / perpTangPower
                 ]
 
+                let viscosity = 5
+
                 this.speed = [
-                    this.speed[0] + -.001 * (this.speed[0] -(2 * perpTangNormal[0])) * dTime,
-                    this.speed[1] + -.001 * (this.speed[1] -(2 * perpTangNormal[1])) * dTime,
+                    this.speed[0] + -viscosity * (this.speed[0] -(2 * perpTangNormal[0])) * dTime,
+                    this.speed[1] + -viscosity * (this.speed[1] -(2 * perpTangNormal[1])) * dTime,
                 ]
 
                 others[i].speed = [
-                    others[i].speed[0] + -.001 * (others[i].speed[0] -(2 * perpTangNormal[0])) * dTime,
-                    others[i].speed[1] + -.001 * (others[i].speed[1] -(2 * perpTangNormal[1])) * dTime,
+                    others[i].speed[0] + -viscosity * (others[i].speed[0] -(-2 * perpTangNormal[0])) * dTime,
+                    others[i].speed[1] + -viscosity * (others[i].speed[1] -(-2 * perpTangNormal[1])) * dTime,
                 ]
 
                 let resolveDist = dist - (this.radius + others[i].radius)
+                let adv = 0
 
                 this.position = [
-                    this.position[0] - (perpTangNormal[0] * (1/2) * resolveDist)* 1,
-                    this.position[1] - (perpTangNormal[1] * (1/2) * resolveDist)* 1
+                    this.position[0] - ((perpTangNormal[0] + adv) * (1/2) * resolveDist),
+                    this.position[1] - ((perpTangNormal[1] + adv) * (1/2) * resolveDist)
                 ]
 
                 others[i].position = [
-                    others[i].position[0] + (perpTangNormal[0] * (1/2) * resolveDist) * 1,
-                    others[i].position[1] + (perpTangNormal[1] * (1/2) * resolveDist)* 1
+                    others[i].position[0] + ((perpTangNormal[0] + adv) * (1/2) * resolveDist),
+                    others[i].position[1] + ((perpTangNormal[1] + adv) * (1/2) * resolveDist)
                 ]
             }
         }
